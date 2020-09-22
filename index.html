@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contact.mysite.poc</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.muicss.com/mui-latest/extra/mui-combined.min.js"></script>
+    <script>
+      const endppoint = '{API-URL}';
+      
+      async function sendMailToLambda(){
+          const form = document.querySelector("form");
+          const name = form.name.value;
+          const email = form.email.value;
+          const enquiry = form.enquiry.value;
+
+          payload = {
+              "name" : name,
+              "email" : email,
+              "enquiry" : enquiry
+          }
+
+          // request options
+          const options = {
+              method: 'POST',
+              body: JSON.stringify(payload),
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          }
+
+          // send post request
+          const resultRAW = await fetch(endppoint, options)
+          const result = await resultRAW.json()
+          console.log(result)
+          alert("Contact Message Sent!")
+      }
+    </script>
+  </head>
+  <body>
+    <header class="mui-appbar mui--z1">
+      <div class="mui-container">
+        <table>
+          <tr class="mui--appbar-height">
+            <td class="mui--text-title">Contact.mysite.poc</td>
+          </tr>
+        </table>
+      </div>
+    </header>
+    <div id="content-wrapper" class="mui--text-center">
+      <div class="mui--appbar-height"></div>
+      <br>
+      <br>
+      <div class="mui--text-display3 row wow zoomInDown">Contact.mysite.poc</div>
+      <br>
+      <br>
+      <div class="mui-row">
+        <div class="mui-col-md-4"></div>
+        <div class="mui-col-md-4">
+          <form class="mui-form" action="javascript:sendMailToLambda();">
+            <legend>Contact Me</legend>
+            <div class="mui-textfield">
+              <input type="text" id="name" placeholder="Name">
+            </div>
+            <div class="mui-textfield">
+              <input type="text" id="email" placeholder="Email">
+            </div>
+            <div class="mui-textfield">
+              <textarea placeholder="Enquiry" id="enquiry"></textarea>
+            </div>
+            <button type="submit" class="mui-btn mui-btn--raised">Submit</button>
+          </form>
+        </div>
+        <div class="mui-col-md-4"></div>
+      </div>
+      <br>
+      <br>
+      <i class="fa fa-envelope fa-5x row wow zoomIn" aria-hidden="true"></i>
+    </div>
+    <footer>
+    </footer>
+  </body>
+</html>
